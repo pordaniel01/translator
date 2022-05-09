@@ -1,0 +1,103 @@
+<mat-drawer-container class="example-container" autosize>
+    <mat-drawer #drawer class="example-sidenav" mode="side">
+        Used APIs
+        <mat-selection-list  [multiple]="false">
+            <mat-list-option>
+              <a href="https://www.wordsapi.com/">Word API</a> 
+            </mat-list-option>
+            <mat-list-option>
+                <a href="https://translate.yandex.com/">Yandex API</a> 
+              </mat-list-option>
+              <mat-list-option>
+                <a href="http://thesaurus.altervista.org/service">Thesaurus API</a> 
+              </mat-list-option>
+          </mat-selection-list>
+    </mat-drawer>
+  
+    <button style="float: left;" mat-icon-button color="accent" (click)="drawer.toggle()" >
+        <mat-icon>menu</mat-icon>
+    </button>
+
+    <h2 class="title">
+        <strong>
+            <span class="g-blue">p</span> <span class="o-red">d </span>
+            <span class="l-green">t</span> <span class="o-red">r</span>
+            <span class="o-yellow">a</span> <span class="g-blue">n</span>
+            <span class="l-green">s</span> <span class="o-yellow">l</span>
+            <span class="g-blue">a</span> <span class="l-green">t</span>
+            <span class="g-blue">o</span> <span class="o-yellow">r</span>
+        </strong>
+    </h2>
+
+    <div class="card-holder">
+        <mat-card class="example-card">
+            <mat-grid-list cols="101"  rowHeight="10px">
+                <mat-grid-tile [rowspan]="3" [colspan]="50">
+                        <mat-form-field>
+                            <mat-label>Translate from</mat-label>
+                            <mat-select  [(ngModel)]="sourceLang">
+                              <mat-option *ngFor="let lang of langs" [value]="lang"> {{lang}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile [rowspan]="17" [colspan]="1">
+                <mat-divider [vertical]="true"></mat-divider>
+                </mat-grid-tile>
+                <mat-grid-tile [rowspan]="3" [colspan]="50">
+                    <mat-form-field>
+                        <mat-label>Translate to</mat-label>
+                        <mat-select  [(ngModel)]="targetLang">
+                          <mat-option *ngFor="let lang of langs" [value]="lang"> {{lang}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                </mat-grid-tile> 
+                <mat-grid-tile [rowspan]="17" [colspan]="50">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Type here the word...</mat-label>
+                        <textarea matInput style="font-size: 28px; resize: none;  float: left;" [(ngModel)]="wordInput" ></textarea>
+                        <button (click)="execute()" mat-fab color="primary" aria-label="Example icon button with a delete icon" style="float: right;">
+                            <mat-icon>arrow_forward</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </mat-grid-tile> 
+                <mat-grid-tile [rowspan]="17" [colspan]="50">
+                    <mat-form-field class="example-full-width">
+                        <textarea #input matInput style="font-size: 28px; resize: none;  float: left;" [(ngModel)]="this.translateResult?.def[0].tr[0].text" readonly></textarea>
+                        <button (click)="clear()"mat-fab color="primary" aria-label="Example icon button with a delete icon" style="float: right;">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </mat-grid-tile> 
+               
+            </mat-grid-list>             
+        </mat-card>
+
+        
+    </div>
+    <div class="synonym-holder">
+        <mat-card class="synonym-list">
+            <mat-grid-list cols="101"  rowHeight="10px">
+                <mat-grid-tile [rowspan]="2" [colspan]="101">
+                    Synonyms
+                </mat-grid-tile>
+                
+                
+                <mat-grid-tile class="synonyms" [rowspan]="12" [colspan]="50">
+                      <cdk-virtual-scroll-viewport appendOnly itemSize="20" class="example-viewport">
+                        <div *cdkVirtualFor="let synonym of this.synonymsSource?.synonyms" class="example-item">{{synonym}}</div>
+                      </cdk-virtual-scroll-viewport>
+                </mat-grid-tile> 
+                <mat-grid-tile  [rowspan]="11" [colspan]="1">
+                    <mat-divider [vertical]="true"></mat-divider>
+                    </mat-grid-tile>
+                <mat-grid-tile class="synonyms" [rowspan]="12" [colspan]="50">
+                    <cdk-virtual-scroll-viewport appendOnly itemSize="20" class="example-viewport">
+                        <div *cdkVirtualFor="let synonym of this.translateResult?.def[0].tr[0].syn" class="example-item">{{synonym.text}}</div>
+                      </cdk-virtual-scroll-viewport>
+                </mat-grid-tile> 
+               
+            </mat-grid-list>    
+        </mat-card>
+    </div>
+
+  </mat-drawer-container>
