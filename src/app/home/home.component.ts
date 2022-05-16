@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
   translateResult:TranslateResult;
   durationInSeconds:number = 5;
 
-
+  //on init we fetch available langs
   ngOnInit(): void {
     
     this.dictionary.getAvailableLangs().subscribe((data:string[]) => {
@@ -45,10 +45,12 @@ export class HomeComponent implements OnInit {
   
   }
 
+  //
   public getSynonymSource(){
     this.wordService.getSynonyms(this.wordInput).subscribe((data:SynonymResult) => this.synonymsSource = data)
   }
 
+  //clears everytghin
   clear(){
     this.wordInput = "";
     this.translateResult = null;
@@ -56,18 +58,20 @@ export class HomeComponent implements OnInit {
     this.synonymsSource = null
   }
 
+  //executes translation and synonym finding
   execute(){
     this.translateResult = null;
     this.synonymsResult = null;
     this.synonymsSource = null;
     this.translate();
     if(this.sourceLang == "en"){
-      this.getSynonymSource();
+      this.getSynonymSource();  //for english synonyms we use original synonym api
     }else {
-      this.getIntSynonym(this.wordInput,this.sourceLang);
+      this.getIntSynonym(this.wordInput,this.sourceLang); //for everything else we use thaurus
     }
   }
 
+  //executes translations
   translate(){
     
     let lang = this.sourceLang + "-" + this.targetLang;
@@ -81,9 +85,12 @@ export class HomeComponent implements OnInit {
     }, err => this.openSnackBar(err));
   }
 
+  //Error message snackbar
   openSnackBar(message: string) {
     this._snackBar.open(message, "OK",{duration: this.durationInSeconds * 1000});
   }
+
+  //Get thaurus synonyms
   getIntSynonym(word:string, lang:string){
     this.intSynServ.getSynonym(word,lang + "_" + lang.toUpperCase()).subscribe((data:IntSynonym) => {
       console.log("yes")

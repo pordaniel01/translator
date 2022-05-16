@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TranslateResult } from '../dao/translate-result';
-
+//translator api
 @Injectable({
   providedIn: 'root'
 })
@@ -11,10 +11,11 @@ export class DictionaryService {
   apiHost:string = "https://dictionary.yandex.net/api/v1/dicservice.json";
   constructor(private http: HttpClient) { }
 
+  //get available language pairs
   public getAvailableLangs(){
     return this.http.get<string[]>( this.apiHost + "/getLangs?key=" + this.apiKey);
   }
-
+  //looks up if translation available
   public lookup(lang:string, word:string){
     return this.http.get<TranslateResult>( this.apiHost + "/lookup?lang=" + lang + "&text=" + word + "&key=" + this.apiKey);
   }

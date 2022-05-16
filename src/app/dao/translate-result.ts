@@ -1,3 +1,4 @@
+//Structure of the tranlsation api answer
 export interface TranslateResult {
     head: Head;
     def:  Def[];

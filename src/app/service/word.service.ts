@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SynonymResult } from '../dao/synonimresult';
-
+//this api is only for english synonyms
 @Injectable({
   providedIn: 'root'
 })
